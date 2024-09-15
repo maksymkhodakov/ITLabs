@@ -48,6 +48,7 @@ public class DatabaseController {
     }
 
     @GetMapping(value = "/database/tables")
+    @Operation(description = "Retrieve tables from DB")
     public ResponseEntity<Result> tables() throws ApiException {
         if (database == null) {
             throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
@@ -56,6 +57,7 @@ public class DatabaseController {
     }
 
     @DeleteMapping(value = "/database/tables/delete/{tableName}")
+    @Operation(description = "Drop table in DB")
     public ResponseEntity<Result> dropTable(@PathVariable String tableName) throws ApiException {
         if (database == null) {
             throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
@@ -64,6 +66,7 @@ public class DatabaseController {
     }
 
     @PostMapping(value = "/database/tables/create/{tableName}/{columns}")
+    @Operation(description = "Create table in DB")
     public ResponseEntity<Result> createTable(@PathVariable String columns,
                                               @PathVariable String tableName) throws ApiException {
         if (database == null) {
@@ -73,6 +76,7 @@ public class DatabaseController {
     }
 
     @GetMapping(value = "/database/{tableName}/select/{columns}/{condition}")
+    @Operation(description = "Select by conditions from DB")
     public ResponseEntity<Result> selectCondition(@PathVariable String columns,
                                                   @PathVariable String tableName,
                                                   @PathVariable String condition) throws ApiException {
@@ -83,6 +87,7 @@ public class DatabaseController {
     }
 
     @GetMapping(value = "/database/{tableName}/select/{columns}")
+    @Operation(description = "Select from DB without conditions")
     public ResponseEntity<Result> select(@PathVariable String columns,
                                          @PathVariable String tableName) throws ApiException {
         if (database == null) {
@@ -92,6 +97,7 @@ public class DatabaseController {
     }
 
     @PostMapping(value = "/database/{tableName}/insert/{columns}/{values}")
+    @Operation(description = "Insert into table")
     public ResponseEntity<Result> insert(@PathVariable String columns,
                                          @PathVariable String tableName,
                                          @PathVariable String values) throws ApiException {
@@ -102,6 +108,7 @@ public class DatabaseController {
     }
 
     @DeleteMapping(value = "/database/{tableName}/delete/{condition}")
+    @Operation(description = "Delete from DB by condition")
     public ResponseEntity<Result> delete(@PathVariable String tableName,
                                          @PathVariable String condition) throws ApiException {
         if (database == null) {
@@ -111,6 +118,7 @@ public class DatabaseController {
     }
 
     @GetMapping(value = "/database/{tableLeftName}/combine/{tableRightName}")
+    @Operation(description = "Combine tables in DB")
     public ResponseEntity<Result> combine(@PathVariable String tableLeftName,
                                           @PathVariable String tableRightName) throws ApiException {
         if (database == null) {
@@ -121,6 +129,7 @@ public class DatabaseController {
 
 
     @GetMapping(value = "/database/{tableLeftName}/subtract/{tableRightName}")
+    @Operation(description = "Subtract tables in DB")
     public ResponseEntity<Result> subtract(@PathVariable String tableLeftName,
                                            @PathVariable String tableRightName) throws ApiException {
         if (database == null) {
