@@ -1,4 +1,4 @@
-package mo.khodakov.webs.rest.api.service;
+package mo.khodakov.webs.rest.service;
 
 import mo.khodakov.gui.database.Database;
 

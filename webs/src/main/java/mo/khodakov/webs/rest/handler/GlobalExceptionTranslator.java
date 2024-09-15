@@ -1,4 +1,4 @@
-package mo.khodakov.webs.rest.api.handler;
+package mo.khodakov.webs.rest.handler;
 
 import mo.khodakov.webs.rest.exceptions.ApiException;
 import org.springframework.http.HttpStatus;

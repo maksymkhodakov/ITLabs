@@ -17,7 +17,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/api")
-public class DatabaseController {
+public class RestDatabaseController {
     public static final String DOWNLOAD_DEFAULT_FILENAME = "DB.json";
     private Database database;
 

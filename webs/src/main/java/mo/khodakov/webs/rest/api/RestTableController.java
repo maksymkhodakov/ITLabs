@@ -3,7 +3,7 @@ package mo.khodakov.webs.rest.api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import mo.khodakov.gui.database.Result;
-import mo.khodakov.webs.rest.api.service.DatabaseService;
+import mo.khodakov.webs.rest.service.DatabaseService;
 import mo.khodakov.webs.rest.exceptions.ApiException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class TableController {
+public class RestTableController {
     private final DatabaseService databaseService;
 
     @GetMapping(value = "/tables")
