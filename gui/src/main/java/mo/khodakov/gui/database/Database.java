@@ -49,6 +49,7 @@ public class Database {
     }
 
     public Result query(String queryMessage) {
+        System.out.printf("Query to process: %s%n", queryMessage);
         try {
             for (QueryRegex regex : QueryRegex.values()) {
                 String[] found = Regex.match(queryMessage, regex.getRegex());

@@ -10,6 +10,15 @@ import java.io.FileReader;
 
 public class DatabaseReader {
     private String filePath;
+    private static Database database;
+
+    public static Database getDatabase() {
+        return database;
+    }
+
+    public static void setDatabase(Database database) {
+        DatabaseReader.database = database;
+    }
 
     public DatabaseReader(String filePath) {
         this.filePath = filePath;
@@ -18,6 +27,8 @@ public class DatabaseReader {
     public Database read() throws FileNotFoundException, JsonSyntaxException, JsonIOException {
         FileReader reader = new FileReader(filePath);
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(reader, Database.class);
+        Database parsedDB = gson.fromJson(reader, Database.class);
+        setDatabase(parsedDB);
+        return parsedDB;
     }
 }

@@ -5,7 +5,6 @@ import com.google.gson.JsonSyntaxException;
 import io.swagger.v3.oas.annotations.Operation;
 import mo.khodakov.gui.database.Database;
 import mo.khodakov.gui.database.DatabaseReader;
-import mo.khodakov.gui.database.Result;
 import mo.khodakov.webs.rest.exceptions.ApiException;
 import mo.khodakov.webs.rest.exceptions.ErrorCode;
 import org.springframework.http.MediaType;
@@ -19,7 +18,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/api")
 public class DatabaseController {
-    public static final String DOWNLOAD_FILENAME = "DB.json";
+    public static final String DOWNLOAD_DEFAULT_FILENAME = "DB.json";
     private Database database;
 
     @PostMapping("/database/upload")
@@ -42,99 +41,8 @@ public class DatabaseController {
             throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
         }
         return ResponseEntity.ok()
-                .header("content-disposition", "attachment; filename=" + DOWNLOAD_FILENAME)
+                .header("content-disposition", "attachment; filename=" + DOWNLOAD_DEFAULT_FILENAME)
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(database.download());
-    }
-
-    @GetMapping(value = "/database/tables")
-    @Operation(description = "Retrieve tables from DB")
-    public ResponseEntity<Result> tables() throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query("list tables"));
-    }
-
-    @DeleteMapping(value = "/database/tables/delete/{tableName}")
-    @Operation(description = "Drop table in DB")
-    public ResponseEntity<Result> dropTable(@PathVariable String tableName) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("remove table %s", tableName)));
-    }
-
-    @PostMapping(value = "/database/tables/create/{tableName}/{columns}")
-    @Operation(description = "Create table in DB")
-    public ResponseEntity<Result> createTable(@PathVariable String columns,
-                                              @PathVariable String tableName) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("create table %s (%s)", tableName, columns)));
-    }
-
-    @GetMapping(value = "/database/{tableName}/select/{columns}/{condition}")
-    @Operation(description = "Select by conditions from DB")
-    public ResponseEntity<Result> selectCondition(@PathVariable String columns,
-                                                  @PathVariable String tableName,
-                                                  @PathVariable String condition) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("select %s from %s where %s", columns, tableName, condition)));
-    }
-
-    @GetMapping(value = "/database/{tableName}/select/{columns}")
-    @Operation(description = "Select from DB without conditions")
-    public ResponseEntity<Result> select(@PathVariable String columns,
-                                         @PathVariable String tableName) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("select %s from %s", columns, tableName)));
-    }
-
-    @PostMapping(value = "/database/{tableName}/insert/{columns}/{values}")
-    @Operation(description = "Insert into table")
-    public ResponseEntity<Result> insert(@PathVariable String columns,
-                                         @PathVariable String tableName,
-                                         @PathVariable String values) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("insert into %s (%s) values (%s)", tableName, columns, values)));
-    }
-
-    @DeleteMapping(value = "/database/{tableName}/delete/{condition}")
-    @Operation(description = "Delete from DB by condition")
-    public ResponseEntity<Result> delete(@PathVariable String tableName,
-                                         @PathVariable String condition) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("delete from %s where %s", tableName, condition)));
-    }
-
-    @GetMapping(value = "/database/{tableLeftName}/combine/{tableRightName}")
-    @Operation(description = "Combine tables in DB")
-    public ResponseEntity<Result> combine(@PathVariable String tableLeftName,
-                                          @PathVariable String tableRightName) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("combine %s with %s", tableLeftName, tableRightName)));
-    }
-
-
-    @GetMapping(value = "/database/{tableLeftName}/subtract/{tableRightName}")
-    @Operation(description = "Subtract tables in DB")
-    public ResponseEntity<Result> subtract(@PathVariable String tableLeftName,
-                                           @PathVariable String tableRightName) throws ApiException {
-        if (database == null) {
-            throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
-        }
-        return ResponseEntity.ok(database.query(String.format("subtract %s from %s", tableLeftName, tableRightName)));
     }
 }

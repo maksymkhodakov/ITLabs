@@ -1,4 +1,4 @@
-package mo.khodakov.webs.rest.api.advice;
+package mo.khodakov.webs.rest.api.handler;
 
 import mo.khodakov.webs.rest.exceptions.ApiException;
 import org.springframework.http.HttpStatus;
@@ -21,4 +21,5 @@ public class GlobalExceptionTranslator {
     public String internalServerError(Exception ex) {
         return ex.getMessage();
     }
+
 }
