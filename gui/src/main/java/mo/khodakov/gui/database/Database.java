@@ -191,4 +191,9 @@ public class Database {
         gson.toJson(this, writer);
         writer.close();
     }
+
+    public byte[] download() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this).getBytes();
+    }
 }
