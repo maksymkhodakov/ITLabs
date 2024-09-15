@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class DatabaseReader {
-    private final String filePath;
+    private String filePath;
 
     public DatabaseReader(String filePath) {
         this.filePath = filePath;
