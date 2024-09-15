@@ -1,5 +1,7 @@
 package mo.khodakov.webs.rest.api;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import io.swagger.v3.oas.annotations.Operation;
 import mo.khodakov.gui.database.Database;
 import mo.khodakov.gui.database.DatabaseReader;
@@ -10,13 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.Collection;
 
 
 @RestController
 @RequestMapping("/api")
 public class DatabaseController {
-    public static final String DEFAULT_SCHEMA = "init.json";
     public static final String DOWNLOAD_FILENAME = "DB.json";
     private Database database;
 
@@ -25,9 +27,10 @@ public class DatabaseController {
     public ResponseEntity<Collection<String>> uploadDatabase(@RequestParam String path) {
         try {
             database = new DatabaseReader(path).read();
-        } catch (Exception e) {
-            e.printStackTrace();
-            database = new Database(DEFAULT_SCHEMA);
+        } catch (FileNotFoundException e) {
+            throw new ApiException(ErrorCode.FILE_NOT_FOUND);
+        } catch (JsonSyntaxException | JsonIOException e) {
+            throw new ApiException(ErrorCode.INVALID_JSON);
         }
         return ResponseEntity.ok(database.getTableNames());
     }
