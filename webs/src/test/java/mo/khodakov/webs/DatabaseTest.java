@@ -29,6 +29,46 @@ class DatabaseTest {
     }
 
     @Test
+    void money() {
+        Database database = new Database(null);
+        assertSame(Result.Status.OK, database.query("create table test2 (MONEY money)").getStatus());
+
+        assertSame(Result.Status.FAIL, database.query("insert into test2 (money) values(100000)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test2 (money) values(100000)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test2 (money) values($100,000.00)").getStatus());
+    }
+
+    @Test
+    void moneyInv() {
+        Database database = new Database(null);
+        assertSame(Result.Status.OK, database.query("create table test3 (MONEY_INV inv)").getStatus());
+
+        assertSame(Result.Status.FAIL, database.query("insert into test3 (inv) values($100000.00;$10,000.00)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test3 (inv) values(100000.00;$10,000.00)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test3 (inv) values($100,000.00;$10.000.00)").getStatus());
+    }
+
+    @Test
+    void date() {
+        Database database = new Database(null);
+        assertSame(Result.Status.OK, database.query("create table test4 (DATE date)").getStatus());
+
+        assertSame(Result.Status.FAIL, database.query("insert into test4 (date) values(2000-2-aaa1)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test4 (date) values(10.000.00)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test4 (date) values(2022-02-02)").getStatus());
+    }
+
+    @Test
+    void dateInv() {
+        Database database = new Database(null);
+        assertSame(Result.Status.OK, database.query("create table test5 (DATE_INV inv)").getStatus());
+
+        assertSame(Result.Status.FAIL, database.query("insert into test5 (inv) values(10.000.00)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test5 (inv) values(2000-02-01)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test5 (inv) values(2022-02-02;2022-02-03)").getStatus());
+    }
+
+    @Test
     void combineOperation() {
         Database database = new Database(null);
         assertSame(Result.Status.OK, database.query("create table white_cats (INT id, STR name)").getStatus());
