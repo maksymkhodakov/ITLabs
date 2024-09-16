@@ -100,25 +100,30 @@
             font-size: 13px;
         }
 
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
+        }
+
         form {
             outline: 0;
-            float: left;
-            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            -webkit-border-radius: 4px;
-            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
         }
 
         form > .textbox {
             outline: 0;
             height: 42px;
-            width: 500px;
+            width: 400px;
             line-height: 42px;
             padding: 0 16px;
             background-color: rgba(255, 255, 255, 0.8);
             color: #212121;
             border: 0;
-            float: left;
             -webkit-border-radius: 4px 0 0 4px;
             border-radius: 4px 0 0 4px;
         }
@@ -132,7 +137,6 @@
             outline: 0;
             background: none;
             background-color: rgba(38, 50, 56, 0.8);
-            float: left;
             height: 42px;
             width: 42px;
             text-align: center;
@@ -153,18 +157,6 @@
             background-color: rgba(0, 150, 136, 0.8);
         }
 
-        .float_center {
-            float: right;
-            position: relative;
-            left: -30%;
-            text-align: left;
-        }
-
-        .float_center > .child {
-            position: relative;
-            left: 50%;
-        }
-
         .footer {
             position: fixed;
             left: 0;
@@ -181,22 +173,21 @@
     <h1><b><p th:text="'Welcome, ' + ${name} + '!'"/></b></h1>
 </header>
 
-<div class="float_center">
+<!-- Container to center the forms -->
+<div class="form-container">
+    <!-- Query Form -->
     <form name="frm1">
         <input type="text" class="textbox" name="query" placeholder="Run your database query">
         <button type="submit" class="button">Run</button>
     </form>
-</div>
 
-<!-- File upload form -->
-<div class="float_center">
+    <!-- File Upload Form (placed under query form) -->
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" id="uploadFile" name="file" class="textbox">
         <button id="uploadBtn" class="button">Upload</button>
     </form>
-</div>
 
-<div class="float_center">
+    <!-- File Download Form -->
     <form id="downloadForm" method="POST" action="/downloadFile">
         <input type="text" class="textbox" id="fileName" name="fileName" placeholder="Enter file name to download">
         <button type="button" id="downloadBtn" class="button">Download</button>
@@ -244,8 +235,6 @@
             .catch(error => console.error('Error during file download:', error));
     });
 </script>
-
-
 
 <div id="result" style="margin-bottom: 80px; margin-top: 20px" class="table100 ver2 m-b-110"></div>
 <div id="resultMsg" class="footer"></div>
