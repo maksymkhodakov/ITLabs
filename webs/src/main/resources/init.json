@@ -1,6 +1,22 @@
 {
   "filePath": "/Users/maksymkhodakov/Downloads/KhodakovITLab/webs/src/main/resources/init.json",
   "tables": {
+    "test": {
+      "name": "test",
+      "rows": [],
+      "columns": {
+        "money": {
+          "type": "MONEY",
+          "name": "money",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        }
+      }
+    },
     "trips": {
       "name": "trips",
       "rows": [

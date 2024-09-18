@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Tables</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<header class="w3-container w3-center w3-padding-32">
+    <h1><b>Database Tables</b></h1>
+</header>
+
+<!-- Link to Database Operations -->
+<div class="w3-container w3-padding-32">
+    <a href="/" class="w3-button w3-blue">Back to Database Operations</a>
+</div>
+
+<!-- List Tables -->
+<section class="w3-container">
+    <h2>Available Tables</h2>
+    <table class="w3-table w3-bordered w3-striped">
+        <thead>
+        <tr>
+            <th>Table Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${tables.rows}">
+            <td th:text="${row.elements[0].value}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Create Table Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Create a New Table</h2>
+    <form method="post" action="/mvc/tables/create">
+        <label for="tableName">Table Name:</label>
+        <input type="text" id="tableName" name="tableName" required>
+        <label for="columns">Columns (e.g., id INT, name VARCHAR(100)):</label>
+        <input type="text" id="columns" name="columns" required>
+        <button class="w3-button w3-green" type="submit">Create Table</button>
+    </form>
+</section>
+
+<!-- Drop Table Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Delete a Table</h2>
+    <form method="post" action="/mvc/tables/delete">
+        <label for="tableNameDelete">Table Name:</label>
+        <input type="text" id="tableNameDelete" name="tableName" required>
+        <button class="w3-button w3-red" type="submit">Delete Table</button>
+    </form>
+</section>
+
+<!-- Combine Tables Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Combine Two Tables</h2>
+    <form method="post" action="/mvc/tables/combine">
+        <label for="tableLeftName">First Table Name:</label>
+        <input type="text" id="tableLeftName" name="tableLeftName" required>
+        <label for="tableRightName">Second Table Name:</label>
+        <input type="text" id="tableRightName" name="tableRightName" required>
+        <button class="w3-button w3-blue" type="submit">Combine Tables</button>
+    </form>
+</section>
+
+<!-- Subtract Tables Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Subtract Two Tables</h2>
+    <form method="post" action="/mvc/tables/subtract">
+        <label for="tableLeftSubtract">First Table Name:</label>
+        <input type="text" id="tableLeftSubtract" name="tableLeftName" required>
+        <label for="tableRightSubtract">Second Table Name:</label>
+        <input type="text" id="tableRightSubtract" name="tableRightName" required>
+        <button class="w3-button w3-yellow" type="submit">Subtract Tables</button>
+    </form>
+</section>
+
+</body>
+</html>
