@@ -13,13 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Slf4j
@@ -31,7 +29,6 @@ public class DatabaseController {
 
     public DatabaseController() {
         try {
-            database = new DatabaseReader("/Users/maksymkhodakov/Downloads/KhodakovITLab/webs/src/main/resources/init.json").read();
             // Initialize temporary directory
             tempDir = Files.createTempDirectory("tempUploads");
             log.info("Temporary directory created at: " + tempDir.toString());
@@ -67,7 +64,8 @@ public class DatabaseController {
             // Save the file in the temporary directory
             Files.copy(file.getInputStream(), tempFilePath, StandardCopyOption.REPLACE_EXISTING);
 
-            log.info("File uploaded to: " + tempFilePath.toString());
+            log.info("File uploaded to: " + tempFilePath);
+            this.database = new DatabaseReader(tempFilePath.toFile().getAbsolutePath()).read();
             return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully: " + tempFilePath.toString());
         } catch (IOException e) {
             log.error("File upload failed", e);
