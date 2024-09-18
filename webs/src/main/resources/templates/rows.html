@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Row Operations</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<header class="w3-container w3-center w3-padding-32">
+    <h1><b>Database Row Operations</b></h1>
+</header>
+
+<!-- Links to other sections -->
+<div class="w3-container w3-padding-32">
+    <a href="/mvc/tables" class="w3-button w3-blue">Manage Tables</a>
+    <a href="/" class="w3-button w3-blue">Back to Database Operations</a>
+</div>
+
+<!-- Row Selection Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Select Rows</h2>
+    <form method="get" action="/mvc/rows/select">
+        <label for="tableName">Table Name:</label>
+        <input type="text" id="tableName" name="tableName" required>
+        <label for="columns">Columns (e.g., id, name):</label>
+        <input type="text" id="columns" name="columns" required>
+        <label for="condition">Condition (optional):</label>
+        <input type="text" id="condition" name="condition">
+        <button class="w3-button w3-green" type="submit">Select Rows</button>
+    </form>
+</section>
+
+<!-- Insert Row Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Insert Row</h2>
+    <form method="post" action="/mvc/rows/insert">
+        <label for="tableNameInsert">Table Name:</label>
+        <input type="text" id="tableNameInsert" name="tableName" required>
+        <label for="columnsInsert">Columns (e.g., id, name):</label>
+        <input type="text" id="columnsInsert" name="columns" required>
+        <label for="valuesInsert">Values (e.g., 1, 'John'):</label>
+        <input type="text" id="valuesInsert" name="values" required>
+        <button class="w3-button w3-blue" type="submit">Insert Row</button>
+    </form>
+</section>
+
+<!-- Delete Row Form -->
+<section class="w3-container w3-padding-32">
+    <h2>Delete Row</h2>
+    <form method="post" action="/mvc/rows/delete">
+        <label for="tableNameDelete">Table Name:</label>
+        <input type="text" id="tableNameDelete" name="tableName" required>
+        <label for="conditionDelete">Condition (e.g., id = 1):</label>
+        <input type="text" id="conditionDelete" name="condition" required>
+        <button class="w3-button w3-red" type="submit">Delete Row</button>
+    </form>
+</section>
+
+<!-- Display message if no rows are selected yet -->
+<section class="w3-container w3-padding-32" th:if="${rows == null}">
+    <h2>No rows selected yet</h2>
+    <p>Select rows by using the form above.</p>
+</section>
+
+<!-- Display Selected Rows -->
+<section class="w3-container w3-padding-32" th:if="${rows != null}">
+    <h2>Selected Rows</h2>
+    <table class="w3-table w3-bordered w3-striped">
+        <thead>
+        <tr th:each="element : ${rows.rows[0].elements}">
+            <th th:text="${element.column}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${rows.rows}">
+            <td th:each="element : ${row.elements}" th:text="${element.value}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+</html>
