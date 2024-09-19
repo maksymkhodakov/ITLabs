@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import mo.khodakov.gui.database.Database;
 import mo.khodakov.gui.database.DatabaseReader;
 import mo.khodakov.gui.database.Result;
+import mo.khodakov.webs.rest.exceptions.ApiException;
+import mo.khodakov.webs.rest.exceptions.ErrorCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +21,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
+import static mo.khodakov.webs.rest.api.RestDatabaseController.DOWNLOAD_DEFAULT_FILENAME;
 
 @Slf4j
 @Controller
@@ -43,6 +47,13 @@ public class DatabaseController {
                             Model model) {
         model.addAttribute("name", name);
         return "database";
+    }
+
+    @GetMapping("/query")
+    public String queryContent(@RequestParam(name = "name", required = false, defaultValue = "guest") String name,
+                               Model model) {
+        model.addAttribute("name", name);
+        return "queries";
     }
 
     @PostMapping(value = "/database", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -75,19 +86,30 @@ public class DatabaseController {
 
     @PostMapping("/downloadFile")
     public ResponseEntity<byte[]> downloadFile(@RequestParam("fileName") String fileName) throws IOException {
-        Path file = tempDir.resolve(fileName);
+        if (fileName == null || fileName.equalsIgnoreCase("null")) {
+            if (database == null) {
+                throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
+            }
+            return ResponseEntity.ok()
+                    .header("content-disposition", "attachment; filename=" + DOWNLOAD_DEFAULT_FILENAME)
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(database.download());
+        } else {
+            Path file = tempDir.resolve(fileName);
 
-        if (!Files.exists(file)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            if (!Files.exists(file)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            try (InputStream in = new FileInputStream(file.toFile())) {
+                byte[] fileContent = in.readAllBytes();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", fileName);
+
+                return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+            }
         }
-
-        InputStream in = new FileInputStream(file.toFile());
-        byte[] fileContent = in.readAllBytes();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", fileName);
-
-        return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
     }
 }

@@ -12,9 +12,33 @@
 
 <!-- Links to other sections -->
 <div class="w3-container w3-padding-32">
-    <a href="/mvc/tables" class="w3-button w3-blue">Manage Tables</a>
     <a href="/" class="w3-button w3-blue">Back to Database Operations</a>
+    <a href="/query" class="w3-button w3-blue">Manage Queries</a>
+    <a href="/mvc/tables" class="w3-button w3-blue">Manage Tables</a>
 </div>
+
+<!-- Display message if no rows are selected yet -->
+<section class="w3-container w3-padding-32" th:if="${rows == null}">
+    <h2>No rows selected yet</h2>
+    <p>Select rows by using the form below.</p>
+</section>
+
+<!-- Display Selected Rows -->
+<section class="w3-container w3-padding-32" th:if="${rows != null}">
+    <h2>Selected Rows</h2>
+    <table class="w3-table w3-bordered w3-striped">
+        <thead>
+        <tr th:each="element : ${rows.rows[0].elements}">
+            <th th:text="${element.column}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${rows.rows}">
+            <td th:each="element : ${row.elements}" th:text="${element.value}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
 
 <!-- Row Selection Form -->
 <section class="w3-container w3-padding-32">
@@ -54,29 +78,6 @@
         <input type="text" id="conditionDelete" name="condition" required>
         <button class="w3-button w3-red" type="submit">Delete Row</button>
     </form>
-</section>
-
-<!-- Display message if no rows are selected yet -->
-<section class="w3-container w3-padding-32" th:if="${rows == null}">
-    <h2>No rows selected yet</h2>
-    <p>Select rows by using the form above.</p>
-</section>
-
-<!-- Display Selected Rows -->
-<section class="w3-container w3-padding-32" th:if="${rows != null}">
-    <h2>Selected Rows</h2>
-    <table class="w3-table w3-bordered w3-striped">
-        <thead>
-        <tr th:each="element : ${rows.rows[0].elements}">
-            <th th:text="${element.column}"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="row : ${rows.rows}">
-            <td th:each="element : ${row.elements}" th:text="${element.value}"></td>
-        </tr>
-        </tbody>
-    </table>
 </section>
 
 </body>

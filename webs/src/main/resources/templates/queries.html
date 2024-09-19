@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DBMS</title>
+    <title>My Database</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <link rel="stylesheet"
           href="https://colorlib.com/etc/tb/Table_Highlight_Vertical_Horizontal/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://colorlib.com/etc/tb/Table_Highlight_Vertical_Horizontal/css/main.css">
@@ -66,26 +67,6 @@
                     }
                 })
             });
-
-            $('#uploadBtn').click(function (e) {
-                e.preventDefault();
-                var formData = new FormData();
-                formData.append('file', $('#uploadFile')[0].files[0]);
-
-                $.ajax({
-                    url: '/uploadFile',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        alert('File uploaded successfully');
-                    },
-                    error: function () {
-                        alert('Error uploading file');
-                    }
-                });
-            });
         });
     </script>
     <style>
@@ -100,30 +81,25 @@
             font-size: 13px;
         }
 
-        .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            width: 100%;
-            margin-top: 20px;
-        }
-
         form {
             outline: 0;
-            margin-bottom: 20px;
-            display: flex;
+            float: left;
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
         }
 
         form > .textbox {
             outline: 0;
             height: 42px;
-            width: 400px;
+            width: 500px;
             line-height: 42px;
             padding: 0 16px;
             background-color: rgba(255, 255, 255, 0.8);
             color: #212121;
             border: 0;
+            float: left;
             -webkit-border-radius: 4px 0 0 4px;
             border-radius: 4px 0 0 4px;
         }
@@ -137,6 +113,7 @@
             outline: 0;
             background: none;
             background-color: rgba(38, 50, 56, 0.8);
+            float: left;
             height: 42px;
             width: 42px;
             text-align: center;
@@ -157,6 +134,21 @@
             background-color: rgba(0, 150, 136, 0.8);
         }
 
+        /* The Magic Float Center Code */
+        .float_center {
+            float: right;
+
+            position: relative;
+            left: -30%; /* or right 50% */
+            text-align: left;
+        }
+
+        .float_center > .child {
+            position: relative;
+            left: 50%;
+        }
+    </style>
+    <style>
         .footer {
             position: fixed;
             left: 0;
@@ -170,72 +162,23 @@
 </head>
 <body>
 <header class="w3-container w3-center w3-padding-32">
-    <h1><b>Database Operations</b></h1>
+    <h1><b><p th:text="'Welcome, ' + ${name} + '!'"/></b></h1>
 </header>
+
 
 <!-- Links to other sections -->
 <div class="w3-container w3-padding-32">
-    <a href="/query" class="w3-button w3-blue">Manage Queries</a>
+    <a href="/" class="w3-button w3-blue">Back to Database Operations</a>
     <a href="/mvc/tables" class="w3-button w3-blue">Manage Tables</a>
     <a href="/mvc/rows" class="w3-button w3-blue">Manage Rows</a>
 </div>
 
-<!-- File Upload Form (placed under query form) -->
-<form id="uploadForm" enctype="multipart/form-data" style="text-align: center;">
-    <input type="file" id="uploadFile" name="file" class="textbox" style="margin-bottom: 10px;">
-    <button id="uploadBtn" class="button" style="text-align: center; width: 100px;">Upload</button>
-</form>
-
-<!-- File Download Form -->
-<form id="downloadForm" method="POST" action="/downloadFile" style="text-align: center;">
-    <input type="text" class="textbox" id="fileName" name="fileName" placeholder="Enter file name to download" style="margin-bottom: 10px;">
-    <button type="button" id="downloadBtn" class="button" style="text-align: center; width: 100px;">Download</button>
-</form>
-
+<div class="float_center">
+    <form name="frm1">
+        <input type="text" class="textbox" name="query" placeholder="Run you database query">
+        <button type="submit" class="button">Run</button>
+    </form>
 </div>
-
-<script>
-    document.getElementById("downloadBtn").addEventListener("click", function (e) {
-        e.preventDefault();  // Prevent default form submission
-        var fileName = document.getElementById("fileName").value;
-
-        if (!fileName) {
-            alert("Please enter a file name to download.");
-            return;
-        }
-
-        // Create a form data object
-        var formData = new FormData();
-        formData.append("fileName", fileName);
-
-        // Send the POST request with the file name
-        fetch('/downloadFile', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.blob();  // Get the file as a Blob
-                } else {
-                    alert("File not found or download error");
-                    throw new Error("File download failed");
-                }
-            })
-            .then(blob => {
-                // Create a link to download the file
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = fileName;  // Set the file name
-                document.body.appendChild(a);
-                a.click();  // Simulate a click on the link
-                window.URL.revokeObjectURL(url);  // Clean up
-            })
-            .catch(error => console.error('Error during file download:', error));
-    });
-</script>
-
 <div id="result" style="margin-bottom: 80px; margin-top: 20px" class="table100 ver2 m-b-110"></div>
 <div id="resultMsg" class="footer"></div>
 </body>
