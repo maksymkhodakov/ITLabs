@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/mvc")
 @RequiredArgsConstructor
 public class TableController {
-    public static final String REDIRECT_MVC_TABLES = "redirect:/mvc/tables";
     public static final String RESULT = "result";
+    public static final String TABLES = "tables";
     private final DatabaseService databaseService;
 
     @GetMapping("/tables")
     public String listTables(Model model) throws ApiException {
         final var database = databaseService.getDatabase();
         Result result = database.query("list tables");
-        model.addAttribute("tables", result);
-        return "tables";
+        model.addAttribute(TABLES, result);
+        return TABLES;
     }
 
     @PostMapping("/tables/create")
@@ -34,7 +34,7 @@ public class TableController {
         final var database = databaseService.getDatabase();
         Result result = database.query(String.format("create table %s (%s)", tableName, columns));
         model.addAttribute(RESULT, result);
-        return REDIRECT_MVC_TABLES;
+        return TABLES;
     }
 
     @PostMapping("/tables/delete")
@@ -43,7 +43,7 @@ public class TableController {
         final var database = databaseService.getDatabase();
         Result result = database.query(String.format("remove table %s", tableName));
         model.addAttribute(RESULT, result);
-        return REDIRECT_MVC_TABLES;
+        return TABLES;
     }
 
     @PostMapping("/tables/combine")
@@ -53,7 +53,7 @@ public class TableController {
         final var database = databaseService.getDatabase();
         Result result = database.query(String.format("combine %s with %s", tableLeftName, tableRightName));
         model.addAttribute(RESULT, result);
-        return REDIRECT_MVC_TABLES;
+        return TABLES;
     }
 
     @PostMapping("/tables/subtract")
@@ -63,6 +63,6 @@ public class TableController {
         final var database = databaseService.getDatabase();
         Result result = database.query(String.format("subtract %s from %s", tableLeftName, tableRightName));
         model.addAttribute(RESULT, result);
-        return REDIRECT_MVC_TABLES;
+        return TABLES;
     }
 }

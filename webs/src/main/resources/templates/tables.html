@@ -18,7 +18,7 @@
 </div>
 
 <!-- List Tables -->
-<section class="w3-container">
+<section class="w3-container" th:if="${tables != null && !tables.rows.isEmpty()}">
     <h2>Available Tables</h2>
     <table class="w3-table w3-bordered w3-striped">
         <thead>
@@ -29,6 +29,26 @@
         <tbody>
         <tr th:each="row : ${tables.rows}">
             <td th:text="${row.elements[0].value}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Operation Result -->
+<section class="w3-container" th:if="${result != null && !result.rows.isEmpty()}">
+    <h2>Results</h2>
+    <table class="w3-table w3-bordered w3-striped">
+        <thead>
+        <tr>
+            <th>Operations Results</th>
+        </tr>
+        <tr th:each="element : ${result.rows[0].elements}">
+            <th th:text="${element.column}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${result.rows}">
+            <td th:each="element : ${row.elements}" th:text="${element.value}"></td>
         </tr>
         </tbody>
     </table>

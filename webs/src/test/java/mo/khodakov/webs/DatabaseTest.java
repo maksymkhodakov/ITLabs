@@ -33,9 +33,9 @@ class DatabaseTest {
         Database database = new Database(null);
         assertSame(Result.Status.OK, database.query("create table test2 (MONEY money)").getStatus());
 
-        assertSame(Result.Status.FAIL, database.query("insert into test2 (money) values(100000)").getStatus());
-        assertSame(Result.Status.FAIL, database.query("insert into test2 (money) values(100000)").getStatus());
-        assertSame(Result.Status.OK, database.query("insert into test2 (money) values($100,000.00)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test2 (money) values(100as000)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test2 (money) values(assssa100000)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test2 (money) values(100000.00)").getStatus());
     }
 
     @Test
@@ -43,9 +43,9 @@ class DatabaseTest {
         Database database = new Database(null);
         assertSame(Result.Status.OK, database.query("create table test3 (MONEY_INV inv)").getStatus());
 
-        assertSame(Result.Status.FAIL, database.query("insert into test3 (inv) values($100000.00;$10,000.00)").getStatus());
-        assertSame(Result.Status.FAIL, database.query("insert into test3 (inv) values(100000.00;$10,000.00)").getStatus());
-        assertSame(Result.Status.OK, database.query("insert into test3 (inv) values($100,000.00;$10.000.00)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test3 (inv) values($aaasas100000.00;$10,000.00)").getStatus());
+        assertSame(Result.Status.FAIL, database.query("insert into test3 (inv) values(100000.asas00;$asaa10,000.00)").getStatus());
+        assertSame(Result.Status.OK, database.query("insert into test3 (inv) values(100000.00;10000.00)").getStatus());
     }
 
     @Test

@@ -18,13 +18,13 @@
 </div>
 
 <!-- Display message if no rows are selected yet -->
-<section class="w3-container w3-padding-32" th:if="${rows == null}">
+<section class="w3-container w3-padding-32" th:if="${rows == null || rows.rows == null || rows.rows.isEmpty()}">
     <h2>No rows selected yet</h2>
     <p>Select rows by using the form below.</p>
 </section>
 
 <!-- Display Selected Rows -->
-<section class="w3-container w3-padding-32" th:if="${rows != null}">
+<section class="w3-container w3-padding-32" th:if="${rows != null && rows.rows != null && !rows.rows.isEmpty()}">
     <h2>Selected Rows</h2>
     <table class="w3-table w3-bordered w3-striped">
         <thead>

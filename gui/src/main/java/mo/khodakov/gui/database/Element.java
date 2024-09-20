@@ -106,24 +106,24 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public BigDecimal getAsMoney() throws Exception {
-        // Regular expression for validating a monetary format (e.g., $1,000.00)
-        String moneyRegex = "^\\$\\d{1,3}(,\\d{3})*(\\.\\d{2})?$";
+        // Regular expression for validating a number (e.g., 2323232.02)
+        String numberRegex = "^\\d+(\\.\\d{1,2})?$";
 
-        // Check if the value matches the monetary format
-        if (!value.matches(moneyRegex)) {
-            throw new Exception("Invalid money format");
+        // Check if the value matches the numeric format
+        if (!value.matches(numberRegex)) {
+            throw new Exception("Invalid number format");
         }
 
-        // Remove the dollar sign and commas
-        String numericValue = value.replaceAll("[\\$,]", "");
-
         // Convert the string to BigDecimal
-        BigDecimal money = new BigDecimal(numericValue);
+        BigDecimal money = new BigDecimal(value);
 
         // Check if the value exceeds the maximum allowed amount
         if (money.compareTo(MAX_MONEY) > 0) {
             throw new Exception("Value exceeds maximum allowed amount of $10,000,000,000,000.00");
         }
+
+        // Format the value to the desired monetary string format
+        this.value = "$" + String.format("%,.2f", money); // Update the value to the formatted string
 
         return money;
     }
@@ -135,34 +135,37 @@ public class Element implements Serializable {
         // Split the interval by semicolon
         String[] moneyValues = value.split(";");
 
-        // Regular expression for validating a monetary format (e.g., $1,000.00)
-        String moneyRegex = "^\\$\\d{1,3}(,\\d{3})*(\\.\\d{2})?$";
+        // Regular expression for validating a number (e.g., 2323232.02)
+        String numberRegex = "^\\d+(\\.\\d{1,2})?$";
 
         for (String moneyStr : moneyValues) {
             moneyStr = moneyStr.trim();
 
-            // Check if the value matches the monetary format
-            if (!moneyStr.matches(moneyRegex)) {
-                throw new Exception("Invalid money format in interval");
+            // Check if the value matches the numeric format
+            if (!moneyStr.matches(numberRegex)) {
+                throw new Exception("Invalid number format in interval");
             }
 
-            // Remove the dollar sign and commas
-            String numericValue = moneyStr.replaceAll("[\\$,]", "");
-
             // Convert the string to BigDecimal
-            BigDecimal money = new BigDecimal(numericValue);
+            BigDecimal money = new BigDecimal(moneyStr);
 
             // Check if the value exceeds the maximum allowed amount
             if (money.compareTo(MAX_MONEY) > 0) {
                 throw new Exception("Value exceeds maximum allowed amount of $10,000,000,000,000.00");
             }
 
+            // Format the value to the desired monetary string format and update value
+            moneyStr = "$" + String.format("%,.2f", money); // Update the moneyStr to the formatted string
+
             // Add the valid money value to the list
             moneyList.add(money);
         }
 
+        this.value = moneyList.stream().map(m -> "$" + String.format("%,.2f", m)).collect(Collectors.joining(";"));
+
         return moneyList;
     }
+
 
     public String getColumn() {
         return column;
