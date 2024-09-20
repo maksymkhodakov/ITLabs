@@ -187,6 +187,14 @@
               "column": "money"
             }
           }
+        },
+        {
+          "elements": {
+            "money": {
+              "value": "$123.99",
+              "column": "money"
+            }
+          }
         }
       ],
       "columns": {
@@ -270,6 +278,22 @@
         "id": {
           "type": "INT",
           "name": "id",
+          "nullAllowed": true
+        }
+      }
+    },
+    "uitable": {
+      "name": "uitable",
+      "rows": [],
+      "columns": {
+        "price": {
+          "type": "MONEY",
+          "name": "price",
+          "nullAllowed": true
+        },
+        "name": {
+          "type": "STR",
+          "name": "name",
           "nullAllowed": true
         }
       }
