@@ -1,5 +1,5 @@
 {
-  "filePath": "/Users/maksymkhodakov/Downloads/KhodakovITLab/webs/src/main/resources/init.json",
+  "filePath": "/Users/maksymkhodakov/Downloads/KhodakovITLab/databases/db1.json",
   "tables": {
     "test": {
       "name": "test",
@@ -205,6 +205,35 @@
         }
       }
     },
+    "uitable2": {
+      "name": "uitable2",
+      "rows": [
+        {
+          "elements": {
+            "price": {
+              "value": "$2,000.00",
+              "column": "price"
+            },
+            "name": {
+              "value": "\u0027notsosuper\u0027",
+              "column": "name"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "price": {
+          "type": "MONEY",
+          "name": "price",
+          "nullAllowed": true
+        },
+        "name": {
+          "type": "STR",
+          "name": "name",
+          "nullAllowed": true
+        }
+      }
+    },
     "students": {
       "name": "students",
       "rows": [
@@ -284,7 +313,20 @@
     },
     "uitable": {
       "name": "uitable",
-      "rows": [],
+      "rows": [
+        {
+          "elements": {
+            "price": {
+              "value": "$2,901.12",
+              "column": "price"
+            },
+            "name": {
+              "value": "\u0027supertest\u0027",
+              "column": "name"
+            }
+          }
+        }
+      ],
       "columns": {
         "price": {
           "type": "MONEY",

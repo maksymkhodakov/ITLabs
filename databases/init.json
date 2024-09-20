@@ -1,0 +1,344 @@
+{
+  "filePath": "/Users/maksymkhodakov/Downloads/KhodakovITLab/webs/src/main/resources/init.json",
+  "tables": {
+    "test": {
+      "name": "test",
+      "rows": [],
+      "columns": {
+        "money": {
+          "type": "MONEY",
+          "name": "money",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        }
+      }
+    },
+    "trips": {
+      "name": "trips",
+      "rows": [
+        {
+          "elements": {
+            "name": {
+              "column": "name"
+            },
+            "id": {
+              "value": "123",
+              "column": "id"
+            },
+            "dates": {
+              "value": "10-02-2018...20-02-2018",
+              "column": "dates"
+            }
+          }
+        },
+        {
+          "elements": {
+            "name": {
+              "column": "name"
+            },
+            "id": {
+              "value": "123",
+              "column": "id"
+            },
+            "dates": {
+              "value": "01-12-2018...02-12-2018",
+              "column": "dates"
+            }
+          }
+        },
+        {
+          "elements": {
+            "name": {
+              "column": "name"
+            },
+            "id": {
+              "column": "id"
+            },
+            "dates": {
+              "column": "dates"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "name": {
+          "type": "STR",
+          "name": "name",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        },
+        "dates": {
+          "name": "dates",
+          "nullAllowed": true
+        }
+      }
+    },
+    "comb2": {
+      "name": "comb2",
+      "rows": [
+        {
+          "elements": {
+            "money": {
+              "value": "$20",
+              "column": "money"
+            }
+          }
+        },
+        {
+          "elements": {
+            "money": {
+              "value": "$30",
+              "column": "money"
+            }
+          }
+        },
+        {
+          "elements": {
+            "money": {
+              "value": "$40",
+              "column": "money"
+            }
+          }
+        },
+        {
+          "elements": {
+            "money": {
+              "value": "$15,777.04",
+              "column": "money"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "money": {
+          "type": "MONEY",
+          "name": "money",
+          "nullAllowed": true
+        }
+      }
+    },
+    "coutries": {
+      "name": "coutries",
+      "rows": [
+        {
+          "elements": {
+            "data": {
+              "value": "24-08-1991...02-12-2018",
+              "column": "data"
+            },
+            "name": {
+              "value": "Ukraine",
+              "column": "name"
+            }
+          }
+        },
+        {
+          "elements": {
+            "data": {
+              "value": "04-07-1776...02-12-2018",
+              "column": "data"
+            },
+            "name": {
+              "value": "USA",
+              "column": "name"
+            }
+          }
+        },
+        {
+          "elements": {
+            "data": {
+              "value": "01-07-1867...02-12-2018",
+              "column": "data"
+            },
+            "name": {
+              "value": "Canada",
+              "column": "name"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "data": {
+          "name": "data",
+          "nullAllowed": true
+        },
+        "name": {
+          "type": "STR",
+          "name": "name",
+          "nullAllowed": true
+        }
+      }
+    },
+    "comb1": {
+      "name": "comb1",
+      "rows": [
+        {
+          "elements": {
+            "money": {
+              "value": "$10",
+              "column": "money"
+            }
+          }
+        },
+        {
+          "elements": {
+            "money": {
+              "value": "$123.99",
+              "column": "money"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "money": {
+          "type": "MONEY",
+          "name": "money",
+          "nullAllowed": true
+        }
+      }
+    },
+    "uitable2": {
+      "name": "uitable2",
+      "rows": [
+        {
+          "elements": {
+            "price": {
+              "value": "$2,000.00",
+              "column": "price"
+            },
+            "name": {
+              "value": "\u0027notsosuper\u0027",
+              "column": "name"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "price": {
+          "type": "MONEY",
+          "name": "price",
+          "nullAllowed": true
+        },
+        "name": {
+          "type": "STR",
+          "name": "name",
+          "nullAllowed": true
+        }
+      }
+    },
+    "students": {
+      "name": "students",
+      "rows": [
+        {
+          "elements": {
+            "name": {
+              "value": "Diana",
+              "column": "name"
+            },
+            "id": {
+              "value": "1",
+              "column": "id"
+            }
+          }
+        },
+        {
+          "elements": {
+            "name": {
+              "value": "Nadia",
+              "column": "name"
+            },
+            "id": {
+              "value": "2",
+              "column": "id"
+            }
+          }
+        },
+        {
+          "elements": {
+            "name": {
+              "value": "Inna",
+              "column": "name"
+            },
+            "id": {
+              "value": "153",
+              "column": "id"
+            }
+          }
+        },
+        {
+          "elements": {
+            "name": {
+              "value": "Kolia",
+              "column": "name"
+            },
+            "id": {
+              "value": "8",
+              "column": "id"
+            }
+          }
+        },
+        {
+          "elements": {
+            "name": {
+              "value": "Petro",
+              "column": "name"
+            },
+            "id": {
+              "value": "123",
+              "column": "id"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "name": {
+          "type": "STR",
+          "name": "name",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        }
+      }
+    },
+    "uitable": {
+      "name": "uitable",
+      "rows": [
+        {
+          "elements": {
+            "price": {
+              "value": "$2,901.12",
+              "column": "price"
+            },
+            "name": {
+              "value": "\u0027supertest\u0027",
+              "column": "name"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "price": {
+          "type": "MONEY",
+          "name": "price",
+          "nullAllowed": true
+        },
+        "name": {
+          "type": "STR",
+          "name": "name",
+          "nullAllowed": true
+        }
+      }
+    }
+  }
+}

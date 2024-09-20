@@ -106,11 +106,13 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public BigDecimal getAsMoney() throws Exception {
-        // Regular expression for validating a number (e.g., 2323232.02)
-        String numberRegex = "^\\d+(\\.\\d{1,2})?$";
+        if (value != null) {
+            this.value = value.replace("'", "");
+        }
 
-        // Check if the value matches the numeric format
-        if (!value.matches(numberRegex)) {
+        try {
+            Double.parseDouble(Objects.requireNonNull(value));
+        } catch(Exception e) {
             throw new Exception("Invalid number format");
         }
 
@@ -135,15 +137,14 @@ public class Element implements Serializable {
         // Split the interval by semicolon
         String[] moneyValues = value.split(";");
 
-        // Regular expression for validating a number (e.g., 2323232.02)
-        String numberRegex = "^\\d+(\\.\\d{1,2})?$";
-
         for (String moneyStr : moneyValues) {
             moneyStr = moneyStr.trim();
+            moneyStr = moneyStr.replace("'", "");
 
-            // Check if the value matches the numeric format
-            if (!moneyStr.matches(numberRegex)) {
-                throw new Exception("Invalid number format in interval");
+            try {
+                Double.parseDouble(moneyStr);
+            } catch(Exception e) {
+                throw new Exception("Invalid number format");
             }
 
             // Convert the string to BigDecimal
@@ -153,9 +154,6 @@ public class Element implements Serializable {
             if (money.compareTo(MAX_MONEY) > 0) {
                 throw new Exception("Value exceeds maximum allowed amount of $10,000,000,000,000.00");
             }
-
-            // Format the value to the desired monetary string format and update value
-            moneyStr = "$" + String.format("%,.2f", money); // Update the moneyStr to the formatted string
 
             // Add the valid money value to the list
             moneyList.add(money);

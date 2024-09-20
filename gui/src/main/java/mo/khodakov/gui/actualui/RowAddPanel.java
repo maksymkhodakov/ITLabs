@@ -1,6 +1,5 @@
 package mo.khodakov.gui.actualui;
 
-
 import mo.khodakov.gui.database.Column;
 
 import javax.swing.*;
@@ -8,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 class RowAddPanel extends JPanel {
@@ -33,6 +33,10 @@ class RowAddPanel extends JPanel {
     String getDBQuery() {
         return String.format("insert into %s (%s) values (%s)", table,
                 rowAddModel.getColumnsAsString(), rowAddModel.getValuesAsString());
+    }
+
+    public RowAddTableModel getRowAddModel() {
+        return rowAddModel;
     }
 }
 
@@ -85,11 +89,17 @@ class RowAddTableModel extends AbstractTableModel {
         fireTableCellUpdated(rowIndex, columnIndex);
     }
 
+    public List<String> getValues() {
+        return values;
+    }
+
     String getColumnsAsString() {
         return columns.stream().map(Column::getName).collect(Collectors.joining(", "));
     }
 
     public String getValuesAsString() {
-        return values.stream().collect(Collectors.joining(", "));
+        return values.stream()
+                .map(value -> value == null || value.isEmpty() ? "NULL" : "'" + value.replace("'", "''") + "'")
+                .collect(Collectors.joining(", "));
     }
 }

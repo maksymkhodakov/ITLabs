@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 class TableAddPanel extends JPanel {
-    private JTextField tableName = new JTextField();
-    private TableAddTableModel tableAddModel = new TableAddTableModel();
+    private final JTextField tableName = new JTextField();
+    private final TableAddTableModel tableAddModel = new TableAddTableModel();
 
     TableAddPanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

@@ -97,7 +97,7 @@ class DBGUIManager extends JFrame {
             if (JOptionPane.showConfirmDialog(this,
                     "Ви впевнені,що хочете видалити " + tableName + "?", "Будь ласка, підтвердіть",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                displayQueryResults(database.query("drop table " + tableName), false);
+                displayQueryResults(database.query("remove table " + tableName), false);
                 populateTableList();
             }
         });
@@ -115,7 +115,7 @@ class DBGUIManager extends JFrame {
         menuAction.add(menuDeleteTable);
         menuAction.add(menuCombine);
         JMenuItem menuAbout = new JMenuItem("Info");
-        menuAbout.addActionListener(e -> JOptionPane.showMessageDialog(this, "DBMS TTP-42"));
+        menuAbout.addActionListener(e -> JOptionPane.showMessageDialog(this, "DBMS Khodakov Maksym TTP-42"));
         menuHelp.add(menuAbout);
         return menuBar;
     }
@@ -179,7 +179,15 @@ class DBGUIManager extends JFrame {
         JScrollPane tableScroll = new JScrollPane(resultTable);
         resultTable.setFillsViewportHeight(true);
         resultPanel.add(BorderLayout.CENTER, tableScroll);
-        JButton addRowButton = new JButton("Add row");
+        JButton addRowButton = getAddRowButton();
+        tableControlPanel.add(addRowButton);
+        tableControlPanel.setVisible(false);
+        resultPanel.add(BorderLayout.SOUTH, tableControlPanel);
+        return resultPanel;
+    }
+
+    private JButton getAddRowButton() {
+        JButton addRowButton = new JButton("Додати рядок");
         addRowButton.addActionListener(e -> {
             if (database == null) {
                 JOptionPane.showMessageDialog(this, "No open database");
@@ -189,17 +197,23 @@ class DBGUIManager extends JFrame {
             try {
                 RowAddPanel rowAdd = new RowAddPanel(tableName, database.getTableColumns(tableName));
                 if (JOptionPane.showConfirmDialog(this, rowAdd,
-                        "Enter data for the new row:", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    displayQueryResults(database.query(rowAdd.getDBQuery()), false);
+                        "Введіть дані для рядка:", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                    for (String value : rowAdd.getRowAddModel().getValues()) {
+                        if (value == null || value.trim().isEmpty()) {
+                            JOptionPane.showMessageDialog(this, "Будь ласка введіть всі дані.");
+                            return;
+                        }
+                    }
+
+                    var query = rowAdd.getDBQuery();
+                    displayQueryResults(database.query(query), false);
                     populateTableList();
                 }
             } catch (Exception ex) {
             }
         });
-        tableControlPanel.add(addRowButton);
-        tableControlPanel.setVisible(false);
-        resultPanel.add(BorderLayout.SOUTH, tableControlPanel);
-        return resultPanel;
+        return addRowButton;
     }
 
     private void populateTableList() {
