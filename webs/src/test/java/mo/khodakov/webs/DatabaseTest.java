@@ -20,6 +20,37 @@ class DatabaseTest {
     }
 
     @Test
+    void removeTable() {
+        Database database = new Database(null);
+        assertSame(Result.Status.OK, database.query("create table test1 (INT id, STR name)").getStatus());
+        assertSame(Result.Status.OK, database.query("create table test2 (INT id, STR name)").getStatus());
+
+        Result resultBeforeRemoving = database.query("list tables");
+        assertSame(Result.Status.OK, resultBeforeRemoving.getStatus());
+        assertSame(2, resultBeforeRemoving.getRows().size());
+
+        assertSame(Result.Status.OK, database.query("remove table test1").getStatus());
+        assertSame(Result.Status.OK, database.query("remove table test2").getStatus());
+
+        Result result = database.query("list tables");
+        assertSame(Result.Status.OK, result.getStatus());
+        assertSame(0, result.getRows().size());
+    }
+
+    @Test
+    void deleteRows() {
+        Database database = new Database(null);
+        assertSame(Result.Status.OK, database.query("create table test1 (INT id, STR name)").getStatus());
+
+        assertSame(Result.Status.OK, database.query("insert into test1 (id, name) values(1, KOSTYAAAA697)").getStatus());
+        assertSame(1, database.query("select * from test1").getRows().size());
+
+
+        assertSame(Result.Status.OK, database.query("delete from test1 where id=1").getStatus());
+        assertSame(0, database.query("select * from test1").getRows().size());
+    }
+
+    @Test
     void email() {
         Database database = new Database(null);
         assertSame(Result.Status.OK, database.query("create table test1 (EMAIL email)").getStatus());
