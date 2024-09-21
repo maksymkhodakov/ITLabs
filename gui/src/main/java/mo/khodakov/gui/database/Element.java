@@ -25,27 +25,33 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public Integer getAsInteger() {
+        formatValue();
         return parseInt(value);
     }
 
     @JsonIgnore
     public Float getAsFloat() {
+        formatValue();
         return Float.parseFloat(value);
     }
 
     @JsonIgnore
     public char getAsCharacter() throws Exception {
+        formatValue();
         if (value.length() != 1) throw new Exception("Invalid character value");
         return value.charAt(0);
     }
 
     @JsonIgnore
     public String getAsString() {
+        formatValue();
         return value;
     }
 
     @JsonIgnore
     public String getAsEmail() throws Exception {
+        formatValue();
+
         Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9-\\_\\+\\.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
         Matcher regMatcher = regexPattern.matcher(value);
         if (regMatcher.matches()) {
@@ -57,6 +63,8 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public CustomEnum getAsEnum() throws Exception {
+        formatValue();
+
         Pattern regexPattern = Pattern.compile("^\\s*\\{(\\s*\\w* *= *\\d*\\s*;?)*?\\s*\\}$");
         Matcher regMatcher = regexPattern.matcher(value);
         if (regMatcher.matches()) {
@@ -79,6 +87,8 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public Date getAsDate() throws Exception {
+        formatValue();
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return sdf.parse(value);
@@ -89,6 +99,8 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public List<Date> getAsDateInv() throws Exception {
+        formatValue();
+
         List<Date> dateList = new ArrayList<>();
         String[] dateValues = value.split(",");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -106,9 +118,7 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public BigDecimal getAsMoney() throws Exception {
-        if (value != null) {
-            this.value = value.replace("'", "");
-        }
+        formatValue();
 
         try {
             Double.parseDouble(Objects.requireNonNull(value));
@@ -132,6 +142,7 @@ public class Element implements Serializable {
 
     @JsonIgnore
     public List<BigDecimal> getAsMoneyInv() throws Exception {
+        formatValue();
         List<BigDecimal> moneyList = new ArrayList<>();
 
         // Split the interval by semicolon
@@ -238,4 +249,9 @@ public class Element implements Serializable {
                 Objects.equals(column, element.column);
     }
 
+    private void formatValue() {
+        if (value != null) {
+            this.value = value.replace("'", "");
+        }
+    }
 }

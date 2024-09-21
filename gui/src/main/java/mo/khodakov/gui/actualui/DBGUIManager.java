@@ -71,6 +71,35 @@ class DBGUIManager extends JFrame {
                 }
             }
         });
+        JMenuItem createDB = new JMenuItem("Створити");
+        createDB.addActionListener(e -> {
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                String newDatabasePath = fileChooser.getSelectedFile().getAbsolutePath();
+
+                // Перевірка, чи має файл розширення .json. Якщо ні - додаємо його.
+                if (!newDatabasePath.endsWith(".json")) {
+                    newDatabasePath += ".json";
+                }
+
+                File newDatabaseFile = new File(newDatabasePath);
+                if (!newDatabaseFile.exists()) {
+                    try {
+                        newDatabaseFile.createNewFile();
+                        // Ініціалізація нової бази даних та запис її в файл.
+                        database = new Database(newDatabasePath);
+                        database.save();
+                        dbNameLabel.setText(newDatabaseFile.getName());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    // Тут можна вивести повідомлення про те, що файл вже існує, і запитати, чи хоче користувач його перезаписати.
+                    System.out.println("File already exists!");
+                }
+            }
+        });
+        menuFile.add(createDB);
         menuFile.add(menuFileOpen);
         menuFile.add(menuFileSaveAs);
         JMenuItem menuCreateTable = new JMenuItem("Створити таблицю");

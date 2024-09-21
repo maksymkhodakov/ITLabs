@@ -1,0 +1,34 @@
+{
+  "filePath": "/Users/maksymkhodakov/Downloads/KhodakovITLab/databases/scratch.json",
+  "tables": {
+    "testDB": {
+      "name": "testDB",
+      "rows": [
+        {
+          "elements": {
+            "indecatorChar": {
+              "value": "supernatural",
+              "column": "indecatorChar"
+            },
+            "id": {
+              "value": "123",
+              "column": "id"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "indecatorChar": {
+          "type": "STR",
+          "name": "indecatorChar",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        }
+      }
+    }
+  }
+}
