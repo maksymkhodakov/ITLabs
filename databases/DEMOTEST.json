@@ -1,0 +1,81 @@
+{
+  "filePath": "/Users/maksymkhodakov/Downloads/KhodakovITLab/databases/DEMOTEST.json",
+  "tables": {
+    "DEMO1": {
+      "name": "DEMO1",
+      "rows": [
+        {
+          "elements": {
+            "moneyinv": {
+              "value": "$1,000.00;$1,000,500.45",
+              "column": "moneyinv"
+            },
+            "money": {
+              "value": "$100,000.12",
+              "column": "money"
+            },
+            "id": {
+              "value": "1",
+              "column": "id"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "moneyinv": {
+          "type": "MONEY_INV",
+          "name": "moneyinv",
+          "nullAllowed": true
+        },
+        "money": {
+          "type": "MONEY",
+          "name": "money",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        }
+      }
+    },
+    "DEMO2": {
+      "name": "DEMO2",
+      "rows": [
+        {
+          "elements": {
+            "moneyinv": {
+              "value": "$100.00;$1,000.00",
+              "column": "moneyinv"
+            },
+            "money": {
+              "value": "$1,500.00",
+              "column": "money"
+            },
+            "id": {
+              "value": "2",
+              "column": "id"
+            }
+          }
+        }
+      ],
+      "columns": {
+        "moneyinv": {
+          "type": "MONEY_INV",
+          "name": "moneyinv",
+          "nullAllowed": true
+        },
+        "money": {
+          "type": "MONEY",
+          "name": "money",
+          "nullAllowed": true
+        },
+        "id": {
+          "type": "INT",
+          "name": "id",
+          "nullAllowed": true
+        }
+      }
+    }
+  }
+}

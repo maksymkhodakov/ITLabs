@@ -3,11 +3,13 @@ package mo.khodakov.webs.rest.api;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mo.khodakov.gui.database.Database;
 import mo.khodakov.gui.database.DatabaseReader;
 import mo.khodakov.webs.rest.exceptions.ApiException;
 import mo.khodakov.webs.rest.exceptions.ErrorCode;
+import mo.khodakov.webs.rest.service.DatabaseService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,11 @@ import java.util.Collection;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class RestDatabaseController {
     public static final String DOWNLOAD_DEFAULT_FILENAME = "DB.json";
     private Database database;
+    private final DatabaseService databaseService;
 
     @PostMapping("/database/create")
     @Operation(description = "Method for initial create DB upload")
@@ -70,12 +74,13 @@ public class RestDatabaseController {
     @PostMapping("/database/download")
     @Operation(description = "Method for downloading database state")
     public ResponseEntity<byte[]> downloadDatabase() throws ApiException {
-        if (database == null) {
+        final var serviceDatabase = databaseService.getDatabase();
+        if (serviceDatabase == null) {
             throw new ApiException(ErrorCode.NO_ACTIVE_DATABASE);
         }
         return ResponseEntity.ok()
                 .header("content-disposition", "attachment; filename=" + DOWNLOAD_DEFAULT_FILENAME)
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(database.download());
+                .body(serviceDatabase.download());
     }
 }
