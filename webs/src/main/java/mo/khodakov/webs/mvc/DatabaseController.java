@@ -15,11 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import static mo.khodakov.webs.rest.api.RestDatabaseController.DOWNLOAD_DEFAULT_FILENAME;
@@ -63,6 +65,35 @@ public class DatabaseController {
         return database.query(query);
     }
 
+    @PostMapping("/createFile")
+    public ResponseEntity<String> createFile(@RequestParam("filePathCreated") String filePathCreated) {
+        if (filePathCreated == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty");
+        }
+
+        if (!filePathCreated.endsWith(".json")) {
+            filePathCreated += ".json";
+        }
+
+        File newDatabaseFile = new File(filePathCreated);
+
+        if (!newDatabaseFile.exists()) {
+            try {
+                newDatabaseFile.createNewFile();
+                // Ініціалізація нової бази даних та запис її в файл.
+                this.database = new Database(filePathCreated);
+                this.database.save();
+                this.database = new DatabaseReader(filePathCreated).read();
+                return ResponseEntity.status(HttpStatus.OK).body("File created successfully: " + filePathCreated);
+            } catch (IOException e) {
+                log.error("File creation failed", e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File creation failed");            }
+        } else {
+            log.info("File already exists!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File already exists!");
+        }
+    }
+
     @PostMapping("/uploadFile")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -77,7 +108,7 @@ public class DatabaseController {
 
             log.info("File uploaded to: " + tempFilePath);
             this.database = new DatabaseReader(tempFilePath.toFile().getAbsolutePath()).read();
-            return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully: " + tempFilePath.toString());
+            return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully: " + tempFilePath);
         } catch (IOException e) {
             log.error("File upload failed", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");

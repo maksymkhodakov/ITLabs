@@ -194,6 +194,12 @@
     <a href="/mvc/rows" class="w3-button w3-blue">Manage Rows</a>
 </div>
 
+<!-- File Creation Form -->
+<form id="createForm" method="POST" action="/createFile" style="text-align: center;">
+    <input type="text" class="textbox" id="filePathCreated" name="filePathCreated" placeholder="Enter path with filename to create file" style="margin-bottom: 10px;">
+    <button id="createBtn" class="button" style="text-align: center; width: 100px;">Create</button>
+</form>
+
 <!-- File Upload Form (placed under query form) -->
 <form id="uploadForm" enctype="multipart/form-data" style="text-align: center;">
     <input type="file" id="uploadFile" name="file" class="textbox" style="margin-bottom: 10px;">
@@ -202,7 +208,7 @@
 
 <!-- File Download Form -->
 <form id="downloadForm" method="POST" action="/downloadFile" style="text-align: center;">
-    <input type="text" class="textbox" id="fileName" name="fileName" placeholder="Enter file name to download" style="margin-bottom: 10px;">
+    <input type="text" class="textbox" id="fileName" name="fileName" placeholder="Enter file name to download or 'null' to active" style="margin-bottom: 10px;">
     <button type="button" id="downloadBtn" class="button" style="text-align: center; width: 100px;">Download</button>
 </form>
 
